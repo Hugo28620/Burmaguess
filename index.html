@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Burmaguess Exchange – Demo</title>
+<title>Burmaguess – Real Crypto Portfolio Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -11,38 +11,41 @@ body{
   font-family:Arial,Helvetica,sans-serif;
   background:#0b0e11;
   color:#eaecef;
-}
-header{
-  padding:16px;
-  background:#12161c;
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
-  color:#f0b90b;
-}
-nav{
   display:flex;
-  justify-content:space-around;
-  background:#1e2329;
-  padding:10px 0;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
 }
-nav a{
-  color:#cfcfcf;
-  text-decoration:none;
-  font-size:14px;
-}
-section{
-  display:none;
-  padding:20px;
-}
-section.active{
-  display:block;
-}
-.card{
+.container{
+  max-width:480px;
+  width:92%;
   background:#161a1e;
-  padding:16px;
-  border-radius:12px;
-  margin-bottom:16px;
+  padding:26px;
+  border-radius:18px;
+  box-shadow:0 25px 70px rgba(0,0,0,.7);
+}
+h1{
+  text-align:center;
+  color:#f0b90b;
+  margin-bottom:8px;
+}
+p{
+  font-size:14px;
+  opacity:.8;
+  text-align:center;
+}
+label{
+  font-size:13px;
+  opacity:.7;
+}
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  margin-top:6px;
+  margin-bottom:14px;
+  font-size:14px;
 }
 button{
   width:100%;
@@ -51,99 +54,117 @@ button{
   border:none;
   border-radius:8px;
   font-weight:bold;
-  cursor:not-allowed;
+  cursor:pointer;
+}
+.result{
+  margin-top:20px;
+  padding:16px;
+  background:#0b0e11;
+  border-radius:12px;
+  display:none;
+}
+.asset{
+  margin-bottom:14px;
+}
+.asset b{
+  color:#f0b90b;
+}
+.value{
+  font-size:18px;
 }
 .small{
   font-size:12px;
-  opacity:0.6;
+  opacity:.6;
 }
-.price{
-  font-size:28px;
-  color:#f0b90b;
+.footer{
+  margin-top:20px;
+  font-size:12px;
+  text-align:center;
+  opacity:.6;
 }
 </style>
 </head>
 
 <body>
 
-<header>Burmaguess Exchange (DEMO)</header>
+<div class="container">
+  <h1>Burmaguess</h1>
+  <p>Real Non-Custodial Crypto Portfolio Tracker</p>
 
-<nav>
-  <a href="#" onclick="show('home')">Home</a>
-  <a href="#" onclick="show('markets')">Markets</a>
-  <a href="#" onclick="show('wallet')">Wallet</a>
-  <a href="#" onclick="show('deposit')">Deposit</a>
-  <a href="#" onclick="show('withdraw')">Withdraw</a>
-</nav>
+  <label>Bitcoin (BTC) Address</label>
+  <input id="btcAddr" placeholder="Paste BTC address">
 
-<!-- HOME -->
-<section id="home" class="active">
-  <div class="card">
-    <h2>Portfolio</h2>
-    <p>Total Balance</p>
-    <h1>$0.00</h1>
-    <p class="small">Demo account – no real funds</p>
+  <label>Ethereum (ETH) Address</label>
+  <input id="ethAddr" placeholder="Paste ETH address">
+
+  <button onclick="check()">Check Portfolio</button>
+
+  <div class="result" id="result">
+    <div class="asset">
+      <b>Bitcoin</b>
+      <div class="value" id="btcBal">—</div>
+      <div class="small" id="btcUsd">—</div>
+    </div>
+
+    <div class="asset">
+      <b>Ethereum</b>
+      <div class="value" id="ethBal">—</div>
+      <div class="small" id="ethUsd">—</div>
+    </div>
   </div>
-</section>
 
-<!-- MARKETS -->
-<section id="markets">
-  <div class="card">
-    <h2>BTC / USD</h2>
-    <div class="price" id="btcPrice">Loading...</div>
+  <div class="footer">
+    Built by <b>Hugo</b> • Myanmar<br>
+    Public blockchain data • No custody • No wallets stored
   </div>
-</section>
-
-<!-- WALLET -->
-<section id="wallet">
-  <div class="card">
-    <h2>Your Wallet</h2>
-    <p>Bitcoin: 0.00000000 BTC</p>
-    <p>USDT: 0.00</p>
-    <p class="small">UI only – no blockchain connection</p>
-  </div>
-</section>
-
-<!-- DEPOSIT -->
-<section id="deposit">
-  <div class="card">
-    <h2>Deposit</h2>
-    <p>BTC Deposit Address</p>
-    <div class="card">bc1-demo-address-xxxxxxxx</div>
-    <button disabled>Deposit Disabled (Demo)</button>
-  </div>
-</section>
-
-<!-- WITHDRAW -->
-<section id="withdraw">
-  <div class="card">
-    <h2>Withdraw</h2>
-    <input placeholder="Address" style="width:100%;padding:10px;margin-bottom:10px">
-    <input placeholder="Amount" style="width:100%;padding:10px">
-    <button disabled>Withdraw Disabled (Demo)</button>
-  </div>
-</section>
-
-<div class="card small" style="text-align:center">
-  Built by <b>Hugo (Myanmar)</b> • UI Prototype • No real trading
 </div>
 
 <script>
-function show(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+async function check(){
+  const btcAddr = btcAddrEl().value.trim();
+  const ethAddr = ethAddrEl().value.trim();
+
+  document.getElementById("result").style.display="block";
+  btcBal.innerText="Loading...";
+  ethBal.innerText="Loading...";
+  btcUsd.innerText="";
+  ethUsd.innerText="";
+
+  try{
+    const priceRes = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
+    );
+    const prices = await priceRes.json();
+
+    if(btcAddr){
+      const r = await fetch("https://blockstream.info/api/address/" + btcAddr);
+      const d = await r.json();
+      const sats = d.chain_stats.funded_txo_sum - d.chain_stats.spent_txo_sum;
+      const btc = sats / 100000000;
+      btcBal.innerText = btc.toFixed(8) + " BTC";
+      btcUsd.innerText = "~ $" + (btc * prices.bitcoin.usd).toLocaleString(undefined,{maximumFractionDigits:2});
+    }else{
+      btcBal.innerText="—";
+    }
+
+    if(ethAddr){
+      const r = await fetch("https://api.blockcypher.com/v1/eth/main/addrs/" + ethAddr + "/balance");
+      const d = await r.json();
+      const eth = d.balance / 1e18;
+      ethBal.innerText = eth.toFixed(6) + " ETH";
+      ethUsd.innerText = "~ $" + (eth * prices.ethereum.usd).toLocaleString(undefined,{maximumFractionDigits:2});
+    }else{
+      ethBal.innerText="—";
+    }
+
+  }catch(e){
+    btcBal.innerText="Error";
+    ethBal.innerText="Error";
+  }
 }
 
-async function loadBTC(){
-  const r = await fetch(
-    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
-  );
-  const d = await r.json();
-  document.getElementById("btcPrice").innerText =
-    "$" + d.bitcoin.usd.toLocaleString();
-}
-loadBTC();
-setInterval(loadBTC,5000);
+function btcAddrEl(){ return document.getElementById("btcAddr"); }
+function ethAddrEl(){ return document.getElementById("ethAddr"); }
 </script>
 
 </body>
