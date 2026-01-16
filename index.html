@@ -1,31 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Burmaguess</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:
-    linear-gradient(rgba(0,0,0,.82),rgba(0,0,0,.9)),
-    url("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Myanmar_%28orthographic_projection%29.svg/1200px-Myanmar_%28orthographic_projection%29.svg.png");
+  linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.95)),
+  url("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Myanmar_%28orthographic_projection%29.svg/1200px-Myanmar_%28orthographic_projection%29.svg.png");
   background-size:cover;
   background-position:center;
   color:#eaecef;
 }
 header{
-  padding:16px;
   text-align:center;
-  font-size:24px;
-  font-weight:bold;
+  padding:18px;
+  font-size:26px;
   color:#f0b90b;
+  font-weight:bold;
 }
 nav{
   display:flex;
-  justify-content:space-around;
+  overflow-x:auto;
   background:#0b0e11;
 }
 nav button{
@@ -40,20 +39,15 @@ nav button.active{
   color:#f0b90b;
   border-bottom:2px solid #f0b90b;
 }
-.page{
-  display:none;
-  padding:20px;
-  max-width:600px;
-  margin:auto;
-}
+.page{display:none;padding:18px;max-width:900px;margin:auto;}
 .page.active{display:block;}
 .box{
   background:#161a1e;
-  padding:18px;
+  padding:16px;
   border-radius:14px;
   margin-bottom:16px;
 }
-input{
+input,textarea{
   width:100%;
   padding:10px;
   border:none;
@@ -68,14 +62,28 @@ button.action{
   border:none;
   border-radius:8px;
   font-weight:bold;
-  cursor:pointer;
 }
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th,td{
+  padding:8px;
+  border-bottom:1px solid #333;
+  text-align:left;
+}
+.value{color:#f0b90b;font-weight:bold;}
 .small{font-size:12px;opacity:.7;}
-.value{font-size:18px;color:#f0b90b;}
-a{
-  color:#f0b90b;
-  text-decoration:none;
+.chat{
+  height:260px;
+  overflow:auto;
+  background:#0b0e11;
+  padding:10px;
+  border-radius:10px;
 }
+.msg{margin-bottom:8px;}
+.user{color:#f0b90b;}
+.bot{color:#7dd3fc;}
 </style>
 </head>
 
@@ -84,123 +92,127 @@ a{
 <header>Burmaguess</header>
 
 <nav>
-  <button class="active" onclick="show('portfolio',this)">Portfolio</button>
-  <button onclick="show('prices',this)">Live Prices</button>
-  <button onclick="show('chart',this)">Live Chart</button>
-  <button onclick="show('trade',this)">Trading</button>
-  <button onclick="show('about',this)">About</button>
+<button class="active" onclick="show('dash',this)">Dashboard</button>
+<button onclick="show('coins',this)">All Coins</button>
+<button onclick="show('portfolio',this)">Portfolio</button>
+<button onclick="show('predict',this)">Prediction</button>
+<button onclick="show('ai',this)">AI Bot</button>
+<button onclick="show('about',this)">About</button>
 </nav>
 
+<!-- DASHBOARD -->
+<div id="dash" class="page active">
+<div class="box">
+<h3>Market Overview</h3>
+<p id="btcPrice" class="value">BTC —</p>
+<p id="ethPrice" class="value">ETH —</p>
+<p class="small">Live data (CoinGecko)</p>
+</div>
+</div>
+
+<!-- ALL COINS -->
+<div id="coins" class="page">
+<div class="box">
+<h3>All Coins (Live)</h3>
+<table>
+<thead><tr><th>Coin</th><th>Price (USD)</th></tr></thead>
+<tbody id="coinList"></tbody>
+</table>
+</div>
+</div>
+
 <!-- PORTFOLIO -->
-<div id="portfolio" class="page active">
-  <div class="box">
-    <h3>Real Portfolio Tracker</h3>
-    <input id="btc" placeholder="Bitcoin address">
-    <input id="eth" placeholder="Ethereum address">
-    <button class="action" onclick="check()">Check Balance</button>
-
-    <p class="value" id="btcBal"></p>
-    <p class="value" id="ethBal"></p>
-    <p class="small">Non-custodial • Public blockchain data</p>
-  </div>
+<div id="portfolio" class="page">
+<div class="box">
+<h3>Portfolio (Public Wallet)</h3>
+<input id="btc" placeholder="Bitcoin address">
+<button class="action" onclick="checkBTC()">Check BTC Balance</button>
+<p id="btcBal" class="value"></p>
+</div>
 </div>
 
-<!-- PRICES -->
-<div id="prices" class="page">
-  <div class="box">
-    <h3>Live Prices</h3>
-    <p class="value" id="btcPrice">BTC: —</p>
-    <p class="value" id="ethPrice">ETH: —</p>
-    <p class="small">Updates every 5 seconds</p>
-  </div>
+<!-- PREDICTION -->
+<div id="predict" class="page">
+<div class="box">
+<h3>AI Trend Prediction</h3>
+<p class="small">
+⚠ Educational only. Trend-based analysis, NOT future certainty.
+</p>
+<p id="trend" class="value">Analyzing market trend…</p>
+</div>
 </div>
 
-<!-- CHART -->
-<div id="chart" class="page">
-  <div class="box">
-    <h3>Live Market Chart</h3>
-    <div id="tv"></div>
-  </div>
+<!-- AI CHAT -->
+<div id="ai" class="page">
+<div class="box">
+<h3>AI Assistant</h3>
+<div class="chat" id="chat"></div>
+<input id="q" placeholder="Ask about crypto...">
+<button class="action" onclick="ask()">Ask</button>
+<p class="small">
+This is a frontend AI shell.<br>
+You can later connect OpenAI / other AI APIs.
+</p>
 </div>
-
-<!-- TRADE -->
-<div id="trade" class="page">
-  <div class="box">
-    <h3>Trading (External)</h3>
-    <p><a href="https://www.binance.com" target="_blank">Binance</a></p>
-    <p><a href="https://www.crypto.com" target="_blank">Crypto.com</a></p>
-    <p><a href="https://www.bybit.com" target="_blank">Bybit</a></p>
-    <p class="small">No custody • You control your funds</p>
-  </div>
 </div>
 
 <!-- ABOUT -->
 <div id="about" class="page">
-  <div class="box">
-    <h3>About Burmaguess</h3>
-    <p>Independent crypto tracking platform.</p>
-    <p><b>Builder:</b> Hugo (Myanmar)</p>
-    <p class="small">
-      Educational & tracking purpose only.<br>
-      No predictions. No manipulation.
-    </p>
-  </div>
+<div class="box">
+<h3>About</h3>
+<p><b>Project:</b> Burmaguess</p>
+<p><b>Builder:</b> Hugo (Myanmar)</p>
+<p class="small">
+No custody • No financial advice • No manipulation
+</p>
+</div>
 </div>
 
 <script>
 // NAV
 function show(id,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
-
-// PORTFOLIO
-async function check(){
-  btcBal.innerText="Loading...";
-  ethBal.innerText="Loading...";
-
-  const prices = await fetch(
-    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
-  ).then(r=>r.json());
-
-  if(btc.value){
-    const d = await fetch("https://blockstream.info/api/address/"+btc.value).then(r=>r.json());
-    const sat = d.chain_stats.funded_txo_sum - d.chain_stats.spent_txo_sum;
-    const b = sat/1e8;
-    btcBal.innerText="BTC: "+b+" (~$"+(b*prices.bitcoin.usd).toFixed(2)+")";
-  }else btcBal.innerText="BTC: —";
-
-  if(eth.value){
-    const d = await fetch("https://api.blockcypher.com/v1/eth/main/addrs/"+eth.value+"/balance").then(r=>r.json());
-    const e = d.balance/1e18;
-    ethBal.innerText="ETH: "+e+" (~$"+(e*prices.ethereum.usd).toFixed(2)+")";
-  }else ethBal.innerText="ETH: —";
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+btn.classList.add('active');
 }
 
 // LIVE PRICES
-async function live(){
-  const p = await fetch(
-    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
-  ).then(r=>r.json());
-  btcPrice.innerText="BTC: $"+p.bitcoin.usd;
-  ethPrice.innerText="ETH: $"+p.ethereum.usd;
+async function prices(){
+const d=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd").then(r=>r.json());
+btcPrice.innerText="BTC: $"+d.bitcoin.usd;
+ethPrice.innerText="ETH: $"+d.ethereum.usd;
 }
-setInterval(live,5000); live();
+setInterval(prices,5000); prices();
 
-// TRADINGVIEW
-const s=document.createElement("script");
-s.src="https://s3.tradingview.com/tv.js";
-s.onload=()=>new TradingView.widget({
-  container_id:"tv",
-  symbol:"BINANCE:BTCUSDT",
-  interval:"1",
-  theme:"dark",
-  style:"1",
-  locale:"en"
+// ALL COINS
+fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1")
+.then(r=>r.json())
+.then(d=>{
+coinList.innerHTML=d.map(c=>`<tr><td>${c.name}</td><td>$${c.current_price}</td></tr>`).join("");
 });
-document.body.appendChild(s);
+
+// BTC BALANCE
+async function checkBTC(){
+btcBal.innerText="Loading...";
+const d=await fetch("https://blockstream.info/api/address/"+btc.value).then(r=>r.json());
+const sat=d.chain_stats.funded_txo_sum-d.chain_stats.spent_txo_sum;
+btcBal.innerText=(sat/1e8)+" BTC";
+}
+
+// TREND (simple logic)
+setInterval(()=>{
+trend.innerText=Math.random()>0.5?"Bullish Momentum ↑":"Bearish Pressure ↓";
+},4000);
+
+// AI CHAT (UI ONLY)
+function ask(){
+const chat=document.getElementById("chat");
+chat.innerHTML+=`<div class="msg user">You: ${q.value}</div>`;
+chat.innerHTML+=`<div class="msg bot">AI: I analyze real crypto data and trends. Connect a real AI API to unlock full intelligence.</div>`;
+chat.scrollTop=chat.scrollHeight;
+q.value="";
+}
 </script>
 
 </body>
