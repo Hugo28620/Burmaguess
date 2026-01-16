@@ -2,190 +2,145 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Burmaguess</title>
+<title>Burmaguess Exchange – Demo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box}
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:radial-gradient(circle at top,#1a1405,#050300);
-  color:#f5e6b3;
-  scroll-behavior:smooth;
+  background:#0b0e11;
+  color:#eaecef;
 }
-
-/* Myanmar map shadow (gold) */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 600'><path fill='%23d4af37' d='M169 10l18 20-8 22 14 18-6 26 10 22-12 30 16 28-10 34 18 28-12 38 14 36-18 34 10 30-16 30 6 28-12 26-20 22-24-6-22 10-26-10-20 12-18-18 8-26-12-26 8-28-12-30 10-30-14-34 10-36-14-38 12-28-16-28 12-30-10-22 14-26-6-18 10-22 18-20 20-8 18 10z'/></svg>");
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size:420px;
-  opacity:0.08;
-  pointer-events:none;
-}
-
-nav{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:rgba(0,0,0,0.8);
-  padding:14px;
+header{
+  padding:16px;
+  background:#12161c;
   text-align:center;
-  z-index:10;
+  font-size:22px;
+  font-weight:bold;
+  color:#f0b90b;
+}
+nav{
+  display:flex;
+  justify-content:space-around;
+  background:#1e2329;
+  padding:10px 0;
 }
 nav a{
-  color:#d4af37;
-  margin:0 12px;
+  color:#cfcfcf;
   text-decoration:none;
-  font-weight:bold;
-}
-
-section{
-  min-height:100vh;
-  padding:120px 20px 60px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.box{
-  max-width:900px;
-  width:100%;
-  background:rgba(0,0,0,0.65);
-  padding:40px;
-  border-radius:18px;
-  text-align:center;
-  box-shadow:0 30px 80px rgba(0,0,0,0.7);
-}
-
-h1{font-size:52px;color:#ffd966}
-h2{font-size:36px;color:#ffd966}
-p{font-size:17px;line-height:1.7}
-
-.price{
-  font-size:42px;
-  margin-top:20px;
-  color:#ffd966;
-  text-shadow:0 0 20px rgba(255,217,102,0.7);
-}
-
-ul{
-  text-align:left;
-  max-width:500px;
-  margin:20px auto;
-}
-
-iframe{
-  border-radius:14px;
-}
-.footer{
-  margin-top:40px;
   font-size:14px;
+}
+section{
+  display:none;
+  padding:20px;
+}
+section.active{
+  display:block;
+}
+.card{
+  background:#161a1e;
+  padding:16px;
+  border-radius:12px;
+  margin-bottom:16px;
+}
+button{
+  width:100%;
+  padding:12px;
+  background:#f0b90b;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:not-allowed;
+}
+.small{
+  font-size:12px;
   opacity:0.6;
+}
+.price{
+  font-size:28px;
+  color:#f0b90b;
 }
 </style>
 </head>
 
 <body>
 
+<header>Burmaguess Exchange (DEMO)</header>
+
 <nav>
-  <a href="#home">Home</a>
-  <a href="#price">Prices</a>
-  <a href="#analysis">Analysis</a>
-  <a href="#chart">Chart</a>
-  <a href="#trading">Trading</a>
-  <a href="#about">About</a>
+  <a href="#" onclick="show('home')">Home</a>
+  <a href="#" onclick="show('markets')">Markets</a>
+  <a href="#" onclick="show('wallet')">Wallet</a>
+  <a href="#" onclick="show('deposit')">Deposit</a>
+  <a href="#" onclick="show('withdraw')">Withdraw</a>
 </nav>
 
 <!-- HOME -->
-<section id="home">
-  <div class="box">
-    <h1>Burmaguess</h1>
-    <p>Crypto Market Observation & Education Platform</p>
-    <p>Built by Hugo • Myanmar (Burma)</p>
+<section id="home" class="active">
+  <div class="card">
+    <h2>Portfolio</h2>
+    <p>Total Balance</p>
+    <h1>$0.00</h1>
+    <p class="small">Demo account – no real funds</p>
   </div>
 </section>
 
-<!-- PRICE -->
-<section id="price">
-  <div class="box">
-    <h2>Live Bitcoin Price</h2>
+<!-- MARKETS -->
+<section id="markets">
+  <div class="card">
+    <h2>BTC / USD</h2>
     <div class="price" id="btcPrice">Loading...</div>
-    <p>Real-time public market data</p>
   </div>
 </section>
 
-<!-- ANALYSIS -->
-<section id="analysis">
-  <div class="box">
-    <h2>Market Analysis</h2>
-    <p>
-      This section focuses on **educational analysis**:
-      trends, momentum, and historical behavior.
-    </p>
-    <p>
-      ❗ No system can guarantee future prices.
-    </p>
+<!-- WALLET -->
+<section id="wallet">
+  <div class="card">
+    <h2>Your Wallet</h2>
+    <p>Bitcoin: 0.00000000 BTC</p>
+    <p>USDT: 0.00</p>
+    <p class="small">UI only – no blockchain connection</p>
   </div>
 </section>
 
-<!-- CHART -->
-<section id="chart">
-  <div class="box">
-    <h2>Live BTC Chart</h2>
-    <iframe
-      src="https://s.tradingview.com/widgetembed/?symbol=BTCUSD&interval=1&theme=dark"
-      width="100%"
-      height="500"
-      frameborder="0">
-    </iframe>
+<!-- DEPOSIT -->
+<section id="deposit">
+  <div class="card">
+    <h2>Deposit</h2>
+    <p>BTC Deposit Address</p>
+    <div class="card">bc1-demo-address-xxxxxxxx</div>
+    <button disabled>Deposit Disabled (Demo)</button>
   </div>
 </section>
 
-<!-- TRADING -->
-<section id="trading">
-  <div class="box">
-    <h2>Trading Education</h2>
-    <ul>
-      <li>Risk management</li>
-      <li>Support & resistance</li>
-      <li>Trend following</li>
-      <li>Indicators (RSI, MACD)</li>
-      <li>Capital protection first</li>
-    </ul>
+<!-- WITHDRAW -->
+<section id="withdraw">
+  <div class="card">
+    <h2>Withdraw</h2>
+    <input placeholder="Address" style="width:100%;padding:10px;margin-bottom:10px">
+    <input placeholder="Amount" style="width:100%;padding:10px">
+    <button disabled>Withdraw Disabled (Demo)</button>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="box">
-    <h2>About Burmaguess</h2>
-    <p>
-      Burmaguess is an independent crypto learning project
-      focused on transparency and education.
-    </p>
-    <div class="footer">
-      Created by Hugo • Myanmar
-    </div>
-  </div>
-</section>
+<div class="card small" style="text-align:center">
+  Built by <b>Hugo (Myanmar)</b> • UI Prototype • No real trading
+</div>
 
 <script>
+function show(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
 async function loadBTC(){
-  try{
-    const r = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
-    );
-    const d = await r.json();
-    document.getElementById("btcPrice").innerText =
-      "$" + d.bitcoin.usd.toLocaleString();
-  }catch(e){
-    document.getElementById("btcPrice").innerText = "Error loading data";
-  }
+  const r = await fetch(
+    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+  );
+  const d = await r.json();
+  document.getElementById("btcPrice").innerText =
+    "$" + d.bitcoin.usd.toLocaleString();
 }
 loadBTC();
 setInterval(loadBTC,5000);
