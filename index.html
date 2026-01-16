@@ -1,154 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>Burmaguess</title>
-  <meta charset="UTF-8">
+
   <style>
-  body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: radial-gradient(1200px 600px at 50% 10%, #1a1f36 0%, #0b0f1a 55%, #070a12 100%);
-    color: #eaeaff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(1200px 600px at 50% 10%, #1a1f36 0%, #0b0f1a 55%, #070a12 100%);
+      color: #eaeaff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-  /* Myanmar shadow */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 600'><path fill='%23aab2ff' d='M169 10l18 20-8 22 14 18-6 26 10 22-12 30 16 28-10 34 18 28-12 38 14 36-18 34 10 30-16 30 6 28-12 26-20 22-24-6-22 10-26-10-20 12-18-18 8-26-12-26 8-28-12-30 10-30-14-34 10-36-14-38 12-28-16-28 12-30-10-22 14-26-6-18 10-22 18-20 20-8 18 10z'/></svg>");
-    background-repeat: no-repeat;
-    background-position: center 120px;
-    background-size: 420px auto;
-    opacity: 0.06;
-    pointer-events: none;
-  }
+    /* Myanmar (Burma) shadow */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 600'><path fill='%23aab2ff' d='M169 10l18 20-8 22 14 18-6 26 10 22-12 30 16 28-10 34 18 28-12 38 14 36-18 34 10 30-16 30 6 28-12 26-20 22-24-6-22 10-26-10-20 12-18-18 8-26-12-26 8-28-12-30 10-30-14-34 10-36-14-38 12-28-16-28 12-30-10-22 14-26-6-18 10-22 18-20 20-8 18 10z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: center 120px;
+      background-size: 420px auto;
+      opacity: 0.06;
+      pointer-events: none;
+    }
 
-  header {
-    padding: 90px 30px;
-    max-width: 720px;
-    background: linear-gradient(180deg, rgba(21,28,51,0.65), rgba(10,14,30,0.65));
-    border-radius: 18px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.45);
-    backdrop-filter: blur(6px);
-  }
+    header {
+      padding: 90px 30px;
+      max-width: 720px;
+      background: linear-gradient(180deg, rgba(21,28,51,0.65), rgba(10,14,30,0.65));
+      border-radius: 18px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+    }
 
-  h1 {
-    font-size: 56px;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    text-shadow: 0 0 30px rgba(130,150,255,0.7);
-  }
+    h1 {
+      font-size: 56px;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 30px rgba(130,150,255,0.7);
+    }
 
-  p {
-    font-size: 18px;
-    opacity: 0.92;
-    line-height: 1.7;
-  }
+    .subtitle {
+      font-size: 20px;
+      opacity: 0.85;
+      letter-spacing: 1px;
+      margin-bottom: 25px;
+    }
 
-  .credit {
-    margin-top: 40px;
-    font-size: 14px;
-    opacity: 0.6;
-  }
-</style.subtitle {
-  font-size: 20px;
-  opacity: 0.85;
-  letter-spacing: 1px;
-  margin-bottom: 25px;>
-#btc-box {
-  margin-top: 40px;
-  padding: 20px;
-  border-radius: 14px;
-  background: rgba(20,30,70,0.45);
-  border: 1px solid rgba(120,140,255,0.35);
-  box-shadow: 0 0 30px rgba(120,140,255,0.15);
-}
+    .divider {
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #7f8cff, transparent);
+      margin: 30px auto;
+      opacity: 0.6;
+    }
 
-.btc-title {
-  font-size: 14px;
-  letter-spacing: 1px;
-  opacity: 0.7;
-}
+    p {
+      font-size: 18px;
+      opacity: 0.92;
+      line-height: 1.7;
+    }
 
-.btc-price {
-  margin-top: 10px;
-  font-size: 36px;
-  font-weight: bold;
-  color: #9aa6ff;
-  text-shadow: 0 0 15px rgba(154,166,255,0.6);
-}
+    .fake-btn {
+      display: inline-block;
+      margin-top: 35px;
+      padding: 12px 26px;
+      border-radius: 30px;
+      background: rgba(127,140,255,0.15);
+      color: #cfd6ff;
+      font-size: 14px;
+      letter-spacing: 1px;
+      border: 1px solid rgba(127,140,255,0.35);
+      box-shadow: 0 0 25px rgba(127,140,255,0.15);
+    }
 
-  
-}
+    #btc-box {
+      margin-top: 40px;
+      padding: 20px;
+      border-radius: 14px;
+      background: rgba(20,30,70,0.45);
+      border: 1px solid rgba(120,140,255,0.35);
+      box-shadow: 0 0 30px rgba(120,140,255,0.15);
+    }
 
-.divider {
-  width: 120px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #7f8cff, transparent);
-  margin: 30px auto;
-  opacity: 0.6;
-}
+    .btc-title {
+      font-size: 14px;
+      letter-spacing: 1px;
+      opacity: 0.7;
+    }
 
-.fake-btn {
-  display: inline-block;
-  margin-top: 35px;
-  padding: 12px 26px;
-  border-radius: 30px;
-  background: rgba(127,140,255,0.15);
-  color: #cfd6ff;
-  font-size: 14px;
-  letter-spacing: 1px;
-  border: 1px solid rgba(127,140,255,0.35);
-  box-shadow: 0 0 25px rgba(127,140,255,0.15);
-}
+    .btc-price {
+      margin-top: 10px;
+      font-size: 36px;
+      font-weight: bold;
+      color: #9aa6ff;
+      text-shadow: 0 0 15px rgba(154,166,255,0.6);
+    }
 
+    .credit {
+      margin-top: 40px;
+      font-size: 14px;
+      opacity: 0.6;
+    }
+  </style>
 </head>
-<body><script>
-async function loadBTC() {
-  try {
-    const res = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
-    );
-    const data = await res.json();
-    document.getElementById("btcPrice").innerText =
-      "$" + data.bitcoin.usd.toLocaleString();
-  } catch (e) {
-    document.getElementById("btcPrice").innerText = "Error loading price";
-  }
-}
 
-loadBTC();
-setInterval(loadBTC, 5000); // update every 5 seconds
-</script>
+<body>
+  <header>
+    <h1>Burmaguess</h1>
 
- <header>
-  <h1>Burmaguess</h1>
+    <div class="subtitle">
+      Crypto Market Analysis & Probability Research
+    </div>
 
-  <p class="subtitle">
-    Crypto Market Analysis & Probability Research
-  </p>
+    <div class="divider"></div>
 
-  <div class="divider"></div>
+    <p>
+      Exploring market behavior using data, logic, and transparency.
+    </p>
 
-  <p>
-    Exploring market behavior using data, logic, and transparency.
-  </p>
+    <div class="fake-btn">
+      Research Mode • Live Data
+    </div>
 
-<div id="btc-box">
-  <div class="btc-title">Bitcoin (BTC)</div>
-  <div class="btc-price" id="btcPrice">Loading...</div>
-</div>
+    <div id="btc-box">
+      <div class="btc-title">Bitcoin (BTC)</div>
+      <div class="btc-price" id="btcPrice">Loading...</div>
+    </div>
 
+    <div class="credit">
+      Created by Hugo • Myanmar
+    </div>
+  </header>
 
-  <p class="credit">
-    Created by Sai(KOV) • Myanmar
-  </p>
-</header>
+  <script>
+    async function loadBTC() {
+      try {
+        const res = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+        );
+        const data = await res.json();
+        document.getElementById("btcPrice").innerText =
+          "$" + data.bitcoin.usd.toLocaleString();
+      } catch (e) {
+        document.getElementById("btcPrice").innerText = "Error loading price";
+      }
+    }
+
+    loadBTC();
+    setInterval(loadBTC, 5000);
+  </script>
+</body>
+</html>
