@@ -2,169 +2,205 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Burmaguess – Real Crypto Portfolio Tracker</title>
+<title>Burmaguess</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:#0b0e11;
+  background:
+    linear-gradient(rgba(0,0,0,.82),rgba(0,0,0,.9)),
+    url("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Myanmar_%28orthographic_projection%29.svg/1200px-Myanmar_%28orthographic_projection%29.svg.png");
+  background-size:cover;
+  background-position:center;
   color:#eaecef;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
 }
-.container{
-  max-width:480px;
-  width:92%;
-  background:#161a1e;
-  padding:26px;
-  border-radius:18px;
-  box-shadow:0 25px 70px rgba(0,0,0,.7);
-}
-h1{
+header{
+  padding:16px;
   text-align:center;
+  font-size:24px;
+  font-weight:bold;
   color:#f0b90b;
-  margin-bottom:8px;
 }
-p{
-  font-size:14px;
-  opacity:.8;
-  text-align:center;
+nav{
+  display:flex;
+  justify-content:space-around;
+  background:#0b0e11;
 }
-label{
-  font-size:13px;
-  opacity:.7;
+nav button{
+  flex:1;
+  padding:12px;
+  background:none;
+  border:none;
+  color:#aaa;
+  cursor:pointer;
+}
+nav button.active{
+  color:#f0b90b;
+  border-bottom:2px solid #f0b90b;
+}
+.page{
+  display:none;
+  padding:20px;
+  max-width:600px;
+  margin:auto;
+}
+.page.active{display:block;}
+.box{
+  background:#161a1e;
+  padding:18px;
+  border-radius:14px;
+  margin-bottom:16px;
 }
 input{
   width:100%;
-  padding:12px;
-  border-radius:8px;
+  padding:10px;
   border:none;
+  border-radius:8px;
   margin-top:6px;
-  margin-bottom:14px;
-  font-size:14px;
+  margin-bottom:10px;
 }
-button{
+button.action{
   width:100%;
-  padding:12px;
+  padding:10px;
   background:#f0b90b;
   border:none;
   border-radius:8px;
   font-weight:bold;
   cursor:pointer;
 }
-.result{
-  margin-top:20px;
-  padding:16px;
-  background:#0b0e11;
-  border-radius:12px;
-  display:none;
-}
-.asset{
-  margin-bottom:14px;
-}
-.asset b{
+.small{font-size:12px;opacity:.7;}
+.value{font-size:18px;color:#f0b90b;}
+a{
   color:#f0b90b;
-}
-.value{
-  font-size:18px;
-}
-.small{
-  font-size:12px;
-  opacity:.6;
-}
-.footer{
-  margin-top:20px;
-  font-size:12px;
-  text-align:center;
-  opacity:.6;
+  text-decoration:none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>Burmaguess</h1>
-  <p>Real Non-Custodial Crypto Portfolio Tracker</p>
+<header>Burmaguess</header>
 
-  <label>Bitcoin (BTC) Address</label>
-  <input id="btcAddr" placeholder="Paste BTC address">
+<nav>
+  <button class="active" onclick="show('portfolio',this)">Portfolio</button>
+  <button onclick="show('prices',this)">Live Prices</button>
+  <button onclick="show('chart',this)">Live Chart</button>
+  <button onclick="show('trade',this)">Trading</button>
+  <button onclick="show('about',this)">About</button>
+</nav>
 
-  <label>Ethereum (ETH) Address</label>
-  <input id="ethAddr" placeholder="Paste ETH address">
+<!-- PORTFOLIO -->
+<div id="portfolio" class="page active">
+  <div class="box">
+    <h3>Real Portfolio Tracker</h3>
+    <input id="btc" placeholder="Bitcoin address">
+    <input id="eth" placeholder="Ethereum address">
+    <button class="action" onclick="check()">Check Balance</button>
 
-  <button onclick="check()">Check Portfolio</button>
-
-  <div class="result" id="result">
-    <div class="asset">
-      <b>Bitcoin</b>
-      <div class="value" id="btcBal">—</div>
-      <div class="small" id="btcUsd">—</div>
-    </div>
-
-    <div class="asset">
-      <b>Ethereum</b>
-      <div class="value" id="ethBal">—</div>
-      <div class="small" id="ethUsd">—</div>
-    </div>
+    <p class="value" id="btcBal"></p>
+    <p class="value" id="ethBal"></p>
+    <p class="small">Non-custodial • Public blockchain data</p>
   </div>
+</div>
 
-  <div class="footer">
-    Built by <b>Hugo</b> • Myanmar<br>
-    Public blockchain data • No custody • No wallets stored
+<!-- PRICES -->
+<div id="prices" class="page">
+  <div class="box">
+    <h3>Live Prices</h3>
+    <p class="value" id="btcPrice">BTC: —</p>
+    <p class="value" id="ethPrice">ETH: —</p>
+    <p class="small">Updates every 5 seconds</p>
+  </div>
+</div>
+
+<!-- CHART -->
+<div id="chart" class="page">
+  <div class="box">
+    <h3>Live Market Chart</h3>
+    <div id="tv"></div>
+  </div>
+</div>
+
+<!-- TRADE -->
+<div id="trade" class="page">
+  <div class="box">
+    <h3>Trading (External)</h3>
+    <p><a href="https://www.binance.com" target="_blank">Binance</a></p>
+    <p><a href="https://www.crypto.com" target="_blank">Crypto.com</a></p>
+    <p><a href="https://www.bybit.com" target="_blank">Bybit</a></p>
+    <p class="small">No custody • You control your funds</p>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="page">
+  <div class="box">
+    <h3>About Burmaguess</h3>
+    <p>Independent crypto tracking platform.</p>
+    <p><b>Builder:</b> Hugo (Myanmar)</p>
+    <p class="small">
+      Educational & tracking purpose only.<br>
+      No predictions. No manipulation.
+    </p>
   </div>
 </div>
 
 <script>
-async function check(){
-  const btcAddr = btcAddrEl().value.trim();
-  const ethAddr = ethAddrEl().value.trim();
-
-  document.getElementById("result").style.display="block";
-  btcBal.innerText="Loading...";
-  ethBal.innerText="Loading...";
-  btcUsd.innerText="";
-  ethUsd.innerText="";
-
-  try{
-    const priceRes = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
-    );
-    const prices = await priceRes.json();
-
-    if(btcAddr){
-      const r = await fetch("https://blockstream.info/api/address/" + btcAddr);
-      const d = await r.json();
-      const sats = d.chain_stats.funded_txo_sum - d.chain_stats.spent_txo_sum;
-      const btc = sats / 100000000;
-      btcBal.innerText = btc.toFixed(8) + " BTC";
-      btcUsd.innerText = "~ $" + (btc * prices.bitcoin.usd).toLocaleString(undefined,{maximumFractionDigits:2});
-    }else{
-      btcBal.innerText="—";
-    }
-
-    if(ethAddr){
-      const r = await fetch("https://api.blockcypher.com/v1/eth/main/addrs/" + ethAddr + "/balance");
-      const d = await r.json();
-      const eth = d.balance / 1e18;
-      ethBal.innerText = eth.toFixed(6) + " ETH";
-      ethUsd.innerText = "~ $" + (eth * prices.ethereum.usd).toLocaleString(undefined,{maximumFractionDigits:2});
-    }else{
-      ethBal.innerText="—";
-    }
-
-  }catch(e){
-    btcBal.innerText="Error";
-    ethBal.innerText="Error";
-  }
+// NAV
+function show(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
 }
 
-function btcAddrEl(){ return document.getElementById("btcAddr"); }
-function ethAddrEl(){ return document.getElementById("ethAddr"); }
+// PORTFOLIO
+async function check(){
+  btcBal.innerText="Loading...";
+  ethBal.innerText="Loading...";
+
+  const prices = await fetch(
+    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
+  ).then(r=>r.json());
+
+  if(btc.value){
+    const d = await fetch("https://blockstream.info/api/address/"+btc.value).then(r=>r.json());
+    const sat = d.chain_stats.funded_txo_sum - d.chain_stats.spent_txo_sum;
+    const b = sat/1e8;
+    btcBal.innerText="BTC: "+b+" (~$"+(b*prices.bitcoin.usd).toFixed(2)+")";
+  }else btcBal.innerText="BTC: —";
+
+  if(eth.value){
+    const d = await fetch("https://api.blockcypher.com/v1/eth/main/addrs/"+eth.value+"/balance").then(r=>r.json());
+    const e = d.balance/1e18;
+    ethBal.innerText="ETH: "+e+" (~$"+(e*prices.ethereum.usd).toFixed(2)+")";
+  }else ethBal.innerText="ETH: —";
+}
+
+// LIVE PRICES
+async function live(){
+  const p = await fetch(
+    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
+  ).then(r=>r.json());
+  btcPrice.innerText="BTC: $"+p.bitcoin.usd;
+  ethPrice.innerText="ETH: $"+p.ethereum.usd;
+}
+setInterval(live,5000); live();
+
+// TRADINGVIEW
+const s=document.createElement("script");
+s.src="https://s3.tradingview.com/tv.js";
+s.onload=()=>new TradingView.widget({
+  container_id:"tv",
+  symbol:"BINANCE:BTCUSDT",
+  interval:"1",
+  theme:"dark",
+  style:"1",
+  locale:"en"
+});
+document.body.appendChild(s);
 </script>
 
 </body>
