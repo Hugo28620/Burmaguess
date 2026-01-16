@@ -1,162 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Burmaguess</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: radial-gradient(1200px 600px at 50% 10%, #1a1f36 0%, #0b0f1a 55%, #070a12 100%);
-      color: #eaeaff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
+<title>Burmaguess</title>
 
-    /* Myanmar (Burma) shadow */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 600'><path fill='%23aab2ff' d='M169 10l18 20-8 22 14 18-6 26 10 22-12 30 16 28-10 34 18 28-12 38 14 36-18 34 10 30-16 30 6 28-12 26-20 22-24-6-22 10-26-10-20 12-18-18 8-26-12-26 8-28-12-30 10-30-14-34 10-36-14-38 12-28-16-28 12-30-10-22 14-26-6-18 10-22 18-20 20-8 18 10z'/></svg>");
-      background-repeat: no-repeat;
-      background-position: center 120px;
-      background-size: 420px auto;
-      opacity: 0.06;
-      pointer-events: none;
-    }
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle at top, #1a1f3a, #06080f 70%);
+  color: #e8ebff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-    header {
-      padding: 90px 30px;
-      max-width: 720px;
-      background: linear-gradient(180deg, rgba(21,28,51,0.65), rgba(10,14,30,0.65));
-      border-radius: 18px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.45);
-      backdrop-filter: blur(6px);
-    }
+/* Myanmar shadow */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 600'><path fill='%23aab2ff' d='M169 10l18 20-8 22 14 18-6 26 10 22-12 30 16 28-10 34 18 28-12 38 14 36-18 34 10 30-16 30 6 28-12 26-20 22-24-6-22 10-26-10-20 12-18-18 8-26-12-26 8-28-12-30 10-30-14-34 10-36-14-38 12-28-16-28 12-30-10-22 14-26-6-18 10-22 18-20 20-8 18 10z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 420px;
+  opacity: 0.05;
+  pointer-events: none;
+}
 
-    h1 {
-      font-size: 56px;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
-      text-shadow: 0 0 30px rgba(130,150,255,0.7);
-    }
+.container {
+  background: rgba(12, 16, 35, 0.75);
+  border-radius: 18px;
+  padding: 60px 40px;
+  max-width: 720px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+}
 
-    .subtitle {
-      font-size: 20px;
-      opacity: 0.85;
-      letter-spacing: 1px;
-      margin-bottom: 25px;
-    }
+h1 {
+  font-size: 56px;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 30px rgba(140,160,255,0.8);
+}
 
-    .divider {
-      width: 120px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #7f8cff, transparent);
-      margin: 30px auto;
-      opacity: 0.6;
-    }
+.subtitle {
+  font-size: 18px;
+  opacity: 0.85;
+  margin-bottom: 30px;
+}
 
-    p {
-      font-size: 18px;
-      opacity: 0.92;
-      line-height: 1.7;
-    }
+.divider {
+  width: 140px;
+  height: 2px;
+  margin: 25px auto;
+  background: linear-gradient(90deg, transparent, #8f9cff, transparent);
+}
 
-    .fake-btn {
-      display: inline-block;
-      margin-top: 35px;
-      padding: 12px 26px;
-      border-radius: 30px;
-      background: rgba(127,140,255,0.15);
-      color: #cfd6ff;
-      font-size: 14px;
-      letter-spacing: 1px;
-      border: 1px solid rgba(127,140,255,0.35);
-      box-shadow: 0 0 25px rgba(127,140,255,0.15);
-    }
+p {
+  font-size: 17px;
+  line-height: 1.7;
+  opacity: 0.9;
+}
 
-    #btc-box {
-      margin-top: 40px;
-      padding: 20px;
-      border-radius: 14px;
-      background: rgba(20,30,70,0.45);
-      border: 1px solid rgba(120,140,255,0.35);
-      box-shadow: 0 0 30px rgba(120,140,255,0.15);
-    }
+.price-box {
+  margin-top: 40px;
+  padding: 25px;
+  border-radius: 14px;
+  background: rgba(20,25,60,0.6);
+  border: 1px solid rgba(140,160,255,0.35);
+  box-shadow: 0 0 35px rgba(140,160,255,0.15);
+}
 
-    .btc-title {
-      font-size: 14px;
-      letter-spacing: 1px;
-      opacity: 0.7;
-    }
+.price-title {
+  font-size: 14px;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
 
-    .btc-price {
-      margin-top: 10px;
-      font-size: 36px;
-      font-weight: bold;
-      color: #9aa6ff;
-      text-shadow: 0 0 15px rgba(154,166,255,0.6);
-    }
+.price {
+  font-size: 38px;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #a7b2ff;
+  text-shadow: 0 0 20px rgba(167,178,255,0.7);
+}
 
-    .credit {
-      margin-top: 40px;
-      font-size: 14px;
-      opacity: 0.6;
-    }
-  </style>
+.footer {
+  margin-top: 45px;
+  font-size: 14px;
+  opacity: 0.6;
+}
+</style>
 </head>
 
 <body>
-  <header>
-    <h1>Burmaguess</h1>
 
-    <div class="subtitle">
-      Crypto Market Analysis & Probability Research
-    </div>
+<div class="container">
+  <h1>Burmaguess</h1>
 
-    <div class="divider"></div>
+  <div class="subtitle">
+    Crypto Market Observation & Public Data
+  </div>
 
-    <p>
-      Exploring market behavior using data, logic, and transparency.
-    </p>
+  <div class="divider"></div>
 
-    <div class="fake-btn">
-      Research Mode • Live Data
-    </div>
+  <p>
+    Burmaguess provides real-time cryptocurrency prices using public APIs.
+    This project focuses on transparency, learning, and market awareness.
+  </p>
 
-    <div id="btc-box">
-      <div class="btc-title">Bitcoin (BTC)</div>
-      <div class="btc-price" id="btcPrice">Loading...</div>
-    </div>
+  <div class="price-box">
+    <div class="price-title">Bitcoin (BTC / USD)</div>
+    <div class="price" id="btcPrice">Loading...</div>
+  </div>
 
-    <div class="credit">
-      Created by Hugo • Myanmar
-    </div>
-  </header>
+  <div class="footer">
+    Created by Hugo • Myanmar (Burma)
+  </div>
+</div>
 
-  <script>
-    async function loadBTC() {
-      try {
-        const res = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
-        );
-        const data = await res.json();
-        document.getElementById("btcPrice").innerText =
-          "$" + data.bitcoin.usd.toLocaleString();
-      } catch (e) {
-        document.getElementById("btcPrice").innerText = "Error loading price";
-      }
-    }
+<script>
+async function loadBTC() {
+  try {
+    const response = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+    );
+    const data = await response.json();
+    document.getElementById("btcPrice").innerText =
+      "$" + data.bitcoin.usd.toLocaleString();
+  } catch (error) {
+    document.getElementById("btcPrice").innerText = "Unable to load price";
+  }
+}
 
-    loadBTC();
-    setInterval(loadBTC, 5000);
-  </script>
+loadBTC();
+setInterval(loadBTC, 5000);
+</script>
+
 </body>
 </html>
