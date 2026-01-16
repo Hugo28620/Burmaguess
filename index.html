@@ -58,13 +58,35 @@
     font-size: 14px;
     opacity: 0.6;
   }
-</style>
-  </style>
-  .subtitle {
+</style.subtitle {
   font-size: 20px;
   opacity: 0.85;
   letter-spacing: 1px;
-  margin-bottom: 25px;
+  margin-bottom: 25px;>
+#btc-box {
+  margin-top: 40px;
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(20,30,70,0.45);
+  border: 1px solid rgba(120,140,255,0.35);
+  box-shadow: 0 0 30px rgba(120,140,255,0.15);
+}
+
+.btc-title {
+  font-size: 14px;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+
+.btc-price {
+  margin-top: 10px;
+  font-size: 36px;
+  font-weight: bold;
+  color: #9aa6ff;
+  text-shadow: 0 0 15px rgba(154,166,255,0.6);
+}
+
+  
 }
 
 .divider {
@@ -89,7 +111,24 @@
 }
 
 </head>
-<body>
+<body><script>
+async function loadBTC() {
+  try {
+    const res = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+    );
+    const data = await res.json();
+    document.getElementById("btcPrice").innerText =
+      "$" + data.bitcoin.usd.toLocaleString();
+  } catch (e) {
+    document.getElementById("btcPrice").innerText = "Error loading price";
+  }
+}
+
+loadBTC();
+setInterval(loadBTC, 5000); // update every 5 seconds
+</script>
+
  <header>
   <h1>Burmaguess</h1>
 
@@ -103,9 +142,11 @@
     Exploring market behavior using data, logic, and transparency.
   </p>
 
-  <div class="fake-btn">
-    Research Mode • Live Data
-  </div>
+<div id="btc-box">
+  <div class="btc-title">Bitcoin (BTC)</div>
+  <div class="btc-price" id="btcPrice">Loading...</div>
+</div>
+
 
   <p class="credit">
     Created by Sai(KOV) • Myanmar
